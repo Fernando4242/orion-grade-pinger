@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  selenium:
+    image: seleniarm/standalone-chromium:latest
+    container_name: selenium
+    ports:
+      - "4444:4444"
+      - "7900:7900"
+      - "5900:5900"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4444/wd/hub/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    container_name: pinger
+    environment:
+      ORION_USERNAME: ${ORION_USERNAME}
+      ORION_PASSWORD: ${ORION_PASSWORD}
+      WEBHOOK_URL: ${WEBHOOK_URL}
+      TERM_TO_SEARCH: ${TERM_TO_SEARCH}
+    build:
+      context: .
+      target: base
+    depends_on:
+      selenium:
+        condition: service_healthy
