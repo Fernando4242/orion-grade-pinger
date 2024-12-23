@@ -157,10 +157,11 @@ if __name__ == '__main__':
             previous_data = filtered
             print("Previous data updated.")
 
-            time.sleep(120)  # Wait for 2 minutes before refreshing
+            time.sleep(150)  # Wait for 2 minutes before refreshing
             print("Refreshing the page...")
             driver.refresh()
-            time.sleep(180)  # Wait for 3 minutes to ensure page is loaded
+            time.sleep(150)  # Wait for 3 minutes to ensure page is loaded
+            driver.refresh()
             WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.TAG_NAME, "table"))
             )
